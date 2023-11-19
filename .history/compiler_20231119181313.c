@@ -1,3 +1,5 @@
+// Robert McDonald
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -8,6 +10,7 @@
 #define MAX_NUM 5
 #define MAX_SYMBOL_TABLE_SIZE 500
 #define CODE_SIZE 512
+#define MAX_LEVELS 5
 
 // function prototypes
 void lexicalAnalyzer(char* source, int *size, FILE* outputFile);
@@ -168,6 +171,10 @@ void block() {
     tx0=tx-1;
     symbol_table[tx-1].addr=cx;
     emit(7, 0, 0); // JMP
+    if (level > MAX_LEVELS) {
+        printf("Error: Exceeded maximum nesting level\n");
+        exit(1);
+    }
 
     if (token == constsym) {
         constDeclaration();
@@ -745,6 +752,13 @@ void printSymbolTable(FILE* outputFile) {
                symbol_table[i].level,
                symbol_table[i].addr,
                symbol_table[i].mark);
+        /*fprintf(outputFile, "%-4d | %-20s | %-6d | %-5d | %-7d | %-4d\n",
+                symbol_table[i].kind,
+                symbol_table[i].name,
+                symbol_table[i].val,
+                symbol_table[i].level,
+                symbol_table[i].addr,
+                symbol_table[i].mark);*/
     }
 }
 

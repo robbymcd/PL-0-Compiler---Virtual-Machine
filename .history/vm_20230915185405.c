@@ -1,11 +1,8 @@
+// Robert McDonald
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// prototypes
-int base(int BP, int L);
-void initializePas();
-int loadInstructions(const char* filename);
 
 typedef struct {
     int OP;
